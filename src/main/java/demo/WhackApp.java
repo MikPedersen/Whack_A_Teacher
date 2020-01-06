@@ -30,11 +30,11 @@ public  class WhackApp extends GameApplication {
     protected void initGame() {
       spawnHammer();
 
-        // creates a timer that runs spawnMole() every second
-        run(() -> spawnAndras(), Duration.seconds(3));
-        run(() -> spawnKarsten(), Duration.seconds(10));
-        run(() -> spawnAnders(), Duration.seconds(5));
+        // creates a timer that runs spawnMole() parameter is set to decide picture
 
+        run(() -> spawnMole("anders.jpg"), Duration.seconds(2));
+        run(() -> spawnMole("andras.jpg"), Duration.seconds(3));
+        run(() -> spawnMole("karsten.jpg"), Duration.seconds(6));
         // loop background music located in /resources/assets/music/
         loopBGM("BHT.mp3");
     }
@@ -78,30 +78,14 @@ public  class WhackApp extends GameApplication {
         // bind hammer's X value to mouse X
         hammer.xProperty().bind(getInput().mouseXWorldProperty());
     }
+    private void spawnMole(String picture) {
+        entityBuilder()
+                .type(Type.MOLE)
+                .at(FXGLMath.random(0, getAppWidth() - 64), 0)
+                .viewWithBBox(picture)
+                .collidable()
+                .buildAndAttach();
 
-    private void spawnAndras() {
-        entityBuilder()
-                .type(Type.MOLE)
-                .at(FXGLMath.random(0, getAppWidth() - 64), 0)
-                .viewWithBBox("andras.jpg")
-                .collidable()
-                .buildAndAttach();
-    }
-    private void spawnKarsten() {
-        entityBuilder()
-                .type(Type.MOLE)
-                .at(FXGLMath.random(0, getAppWidth() - 64), 0)
-                .viewWithBBox("karsten.jpg")
-                .collidable()
-                .buildAndAttach();
-    }
-    private void spawnAnders() {
-        entityBuilder()
-                .type(Type.MOLE)
-                .at(FXGLMath.random(0, getAppWidth() - 64), 0)
-                .viewWithBBox("anders.jpg")
-                .collidable()
-                .buildAndAttach();
     }
     public static void main(String[] args) {
         launch(args);
