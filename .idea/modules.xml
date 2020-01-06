@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Whack_A_Teacher.iml" filepath="$PROJECT_DIR$/Whack_A_Teacher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WhackApp.iml" filepath="$PROJECT_DIR$/WhackApp.iml" />
     </modules>
   </component>
 </project>
