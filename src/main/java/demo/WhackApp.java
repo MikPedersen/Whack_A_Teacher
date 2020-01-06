@@ -43,7 +43,7 @@ public  class WhackApp extends GameApplication {
     protected void initPhysics() {
         onCollisionBegin(Type.HAMMER, Type.MOLE, (hammer, mole) -> {
 
-            // code in this block is called when there is a collision between Type.BUCKET and Type.DROPLET
+            // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
 
             // remove the collided droplet from the game
             mole.removeFromWorld();
@@ -56,7 +56,7 @@ public  class WhackApp extends GameApplication {
     @Override
     protected void onUpdate(double tpf) {
 
-        // for each entity of Type.DROPLET translate (move) it down
+        // for each entity of Type.MOLE translate (move) it down
         getGameWorld().getEntitiesByType(Type.MOLE).forEach(mole -> mole.translateY(150 * tpf));
     }
 
@@ -77,6 +77,8 @@ public  class WhackApp extends GameApplication {
 
         // bind hammer's X value to mouse X
         hammer.xProperty().bind(getInput().mouseXWorldProperty());
+        // bind hammer's Y value to mouse Y
+        hammer.yProperty().bind(getInput().mouseYWorldProperty());
     }
     private void spawnMole(String picture) {
         entityBuilder()
