@@ -3,6 +3,7 @@ package demo;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.RandomMoveComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
@@ -63,7 +64,7 @@ public  class WhackApp extends GameApplication {
     protected void onUpdate(double tpf) {
 
         // for each entity of Type.MOLE translate (move) it down
-        getGameWorld().getEntitiesByType(Type.MOLE).forEach(mole -> mole.translateY(150 * tpf));
+        //getGameWorld().getEntitiesByType(Type.MOLE).forEach(mole -> mole.translateY(150 * tpf));
     }
 
     private void spawnHammer() {
@@ -88,12 +89,16 @@ public  class WhackApp extends GameApplication {
     }
     private void spawnMole(String picture) {
         entityBuilder()
+                //Builds a mole of the type picture which is entered when calling the method
                 .type(Type.MOLE)
                 .at(FXGLMath.random(0, getAppWidth() - 24), FXGLMath.random(0, getAppHeight() - 24))
                 .viewWithBBox(picture)
                 .with(new RandomMoveComponent(new Rectangle2D(0,0, getAppWidth(), getAppHeight()), 150))
+                .with(new OffscreenCleanComponent())
                 .collidable()
-                .buildAndAttach();
+                .buildAndAttach()
+                ;
+
     }
     private void spawnBackground() {
         entityBuilder()
