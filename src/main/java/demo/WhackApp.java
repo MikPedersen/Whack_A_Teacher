@@ -3,8 +3,12 @@ package demo;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.dsl.components.RandomMoveComponent;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -20,15 +24,16 @@ public  class WhackApp extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings gameSettings) {
-        gameSettings.setHeight(800);
-        gameSettings.setWidth(800);
+        gameSettings.setHeight(768);
+        gameSettings.setWidth(1024);
         gameSettings.setTitle("Whack a teacher");
         gameSettings.setVersion("1.0");
     }
 
     @Override
     protected void initGame() {
-      spawnHammer();
+        spawnBackground();
+        spawnHammer();
 
         // creates a timer that runs spawnMole() parameter is set to decide picture
 
@@ -50,6 +55,7 @@ public  class WhackApp extends GameApplication {
 
             // play a sound effect located in /resources/assets/sounds/
             play("slap.wav");
+
         });
     }
 
@@ -83,12 +89,19 @@ public  class WhackApp extends GameApplication {
     private void spawnMole(String picture) {
         entityBuilder()
                 .type(Type.MOLE)
-                .at(FXGLMath.random(0, getAppWidth() - 64), 0)
+                .at(FXGLMath.random(0, getAppWidth() - 24), FXGLMath.random(0, getAppHeight() - 24))
                 .viewWithBBox(picture)
+                .with(new RandomMoveComponent(new Rectangle2D(0,0, getAppWidth(), getAppHeight()), 150))
                 .collidable()
                 .buildAndAttach();
-
     }
+    private void spawnBackground() {
+        entityBuilder()
+
+                .viewWithBBox("background.png")
+                .buildAndAttach();
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
