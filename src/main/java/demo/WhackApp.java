@@ -77,7 +77,7 @@ public  class WhackApp extends GameApplication {
         Entity hammer = entityBuilder()
                 .type(Type.HAMMER)
                 .at(getAppWidth() / 2, getAppHeight() - 200)
-                .viewWithBBox("hammer.jpg")
+                .viewWithBBox("hammer2.jpg")
                 .collidable()
                 .buildAndAttach();
 
