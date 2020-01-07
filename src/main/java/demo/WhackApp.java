@@ -37,28 +37,24 @@ public  class WhackApp extends GameApplication {
         spawnHammer();
 
         // creates a timer that runs spawnMole() parameter is set to decide picture
-
         run(() -> spawnMole("anders.jpg"), Duration.seconds(2));
         run(() -> spawnMole("andras.jpg"), Duration.seconds(3));
         run(() -> spawnMole("karsten.jpg"), Duration.seconds(6));
         // loop background music located in /resources/assets/music/
+        getSettings().setGlobalMusicVolume(0.1);
+        getSettings().setGlobalSoundVolume(0.3);
         loopBGM("BHT.mp3");
     }
 
     @Override
     protected void initPhysics() {
         onCollisionBegin(Type.HAMMER, Type.MOLE, (hammer, mole) -> {
-
             // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
-
             // remove the collided droplet from the game
             mole.removeFromWorld();
 
             // play a sound effect located in /resources/assets/sounds/
-            play("slap.wav");
-
-        });
-    }
+            play("slap.wav");});}
 
     @Override
     protected void onUpdate(double tpf) {
