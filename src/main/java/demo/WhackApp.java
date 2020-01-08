@@ -1,7 +1,9 @@
 package demo;
 
+import com.almasb.fxgl.app.FXGLMenu;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.SceneFactory;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.RandomMoveComponent;
@@ -23,7 +25,15 @@ public  class WhackApp extends GameApplication {
         gameSettings.setHeight(768);
         gameSettings.setWidth(1024);
         gameSettings.setTitle("Whack a teacher");
-        gameSettings.setVersion("1.0"); }
+        gameSettings.setVersion("1.0");
+
+        gameSettings.setMenuEnabled(true);
+        gameSettings.setSceneFactory(new SceneFactory() {
+            @Override
+            public FXGLMenu newMainMenu(){
+                return new WhackMainMenu();
+            }});
+    }
 
     @Override
     protected void initGameVars(Map<String, Object> vars) {
