@@ -32,8 +32,7 @@ public  class WhackApp extends GameApplication {
             @Override
             public FXGLMenu newMainMenu(){
                 return new WhackMainMenu();
-            }});
-    }
+            }});}
 
     @Override
     protected void onUpdate(double tpf){
@@ -42,9 +41,7 @@ public  class WhackApp extends GameApplication {
             showGameOver();
             //Stops music player since game has ended
             getAudioPlayer().stopMusic(loopBGM("BHT.mp3"));
-        }
-
-    }
+        }}
 
     @Override
     protected void initGameVars(Map<String, Object> vars) {
@@ -53,7 +50,6 @@ public  class WhackApp extends GameApplication {
 
     @Override
     protected void initGame() {
-
         getSettings().setGlobalMusicVolume(0.1);
         getSettings().setGlobalSoundVolume(0.3);
         spawnBackground();

@@ -3,10 +3,12 @@ package demo;
 import com.almasb.fxgl.app.FXGLMenu;
 import com.almasb.fxgl.app.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,8 +39,8 @@ public class WhackMainMenu extends FXGLMenu {
 
     @Override
     protected Node createBackground(double width, double height) {
-        return new Rectangle(width, height, Color.DARKGREEN);
-    }
+        return new ImageView(FXGL.image("background.png"));
+        }
 
     @Override
     protected Node createProfileView( String s) {
@@ -47,8 +49,7 @@ public class WhackMainMenu extends FXGLMenu {
 
     @Override
     protected Node createTitleView( String s) {
-        return new Text();
-    }
+        return new Text();}
 
     @Override
     protected Node createVersionView( String s) {
