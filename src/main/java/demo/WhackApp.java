@@ -36,12 +36,24 @@ public  class WhackApp extends GameApplication {
     }
 
     @Override
+    protected void onUpdate(double tpf){
+        if (geti("score") == 3000) {
+            //Ends the current game when player reaches 3000 points
+            showGameOver();
+            //Stops music player since game has ended
+            getAudioPlayer().stopMusic(loopBGM("BHT.mp3"));
+        }
+
+    }
+
+    @Override
     protected void initGameVars(Map<String, Object> vars) {
         //initialises the score counter
         vars.put("score",0);}
 
     @Override
     protected void initGame() {
+
         getSettings().setGlobalMusicVolume(0.1);
         getSettings().setGlobalSoundVolume(0.3);
         spawnBackground();
@@ -52,12 +64,15 @@ public  class WhackApp extends GameApplication {
         //since Karsten is very hard to find his spawn is longer
         run(() -> spawnMole("karsten.jpg"), Duration.seconds(6));
         // loop background music located in /resources/assets/music/
-        loopBGM("BHT.mp3"); }
+        loopBGM("BHT.mp3");
+    }
+
     @Override
     protected void initPhysics() {
         onCollisionBegin(Type.HAMMER, Type.MOLE, (hammer, mole) -> {
             // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
             // remove the collided mole from the game
+
             mole.removeFromWorld();
             // play a sound effect located in /resources/assets/sounds/
             play("slap.wav");
@@ -69,6 +84,9 @@ public  class WhackApp extends GameApplication {
         //Adds score text and counter
         addVarText("score",30, 50).setFill(Color.RED);
         addText("Score:", 30, 20).setFill(Color.RED);
+    }
+    private void showGameOver() {
+        getDisplay().showMessageBox("You beat the game. Thanks for playing!", getGameController()::gotoMainMenu);
     }
     private void spawnHammer() {
         // build an entity with Type.HAMMER
@@ -91,7 +109,7 @@ public  class WhackApp extends GameApplication {
         Entity mole = entityBuilder()
                 //Builds a mole of the type picture which is entered when calling the method
                 .type(Type.MOLE)
-                .at(FXGLMath.random(0, getAppWidth() - 24), FXGLMath.random(0, getAppHeight() - 24))
+                .at(FXGLMath.random(200, getAppWidth() - 100), FXGLMath.random(150, getAppHeight() - 200))
                 .viewWithBBox(picture)
                 .with(new RandomMoveComponent(new Rectangle2D(0,0, getAppWidth(), getAppHeight()), 150))
                 .with(new OffscreenCleanComponent())
