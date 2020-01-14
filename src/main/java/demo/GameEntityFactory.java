@@ -1,6 +1,5 @@
 package demo;
 
-import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.RandomMoveComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -17,7 +16,6 @@ public class GameEntityFactory implements EntityFactory {
     @Spawns("Hammer")
     public Entity newHammer(SpawnData data){
         // build an entity with Type.HAMMER
-        // at the position X = getAppWidth() / 2 and Y = getAppHeight() - 200
         // with a view "hammer3.png", which is an image located in /resources/assets/textures/
         // also create a bounding box from that view, make the entity collidable
         // finally, complete building and attach to the game world

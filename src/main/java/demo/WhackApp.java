@@ -6,12 +6,8 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.SceneFactory;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
-import com.almasb.fxgl.dsl.components.RandomMoveComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.Map;
@@ -79,34 +75,24 @@ public  class WhackApp extends GameApplication {
 
     @Override
     protected void initPhysics() {
+        // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
+        // remove the collided mole from the game
+        // play a sound effect located in /resources/assets/sounds/
+        //increases score on hit
         onCollisionBegin(EntityType.HAMMER, EntityType.ANDERS, (hammer, anders) -> {
-            // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
-            // remove the collided mole from the game
-            anders.removeFromWorld();
-            // play a sound effect located in /resources/assets/sounds/
-            play("reee.wav");
-            //increases score on hit
-            inc("score", +100);
-        }
-        );
+           anders.removeFromWorld();
+            play("ree.wav");
+            inc("score", +100); });
+
         onCollisionBegin(EntityType.HAMMER, EntityType.ANDRAS, (hammer, andras) -> {
-            // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
-            // remove the collided mole from the game
             andras.removeFromWorld();
-            // play a sound effect located in /resources/assets/sounds/
-            play("slap.wav");
-            //increases score on hit
-            inc("score", +50);
-        });
+            play("baby.wav");
+            inc("score", +50); });
+
         onCollisionBegin(EntityType.HAMMER, EntityType.KARSTEN, (hammer, karsten) -> {
-            // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
-            // remove the collided mole from the game
             karsten.removeFromWorld();
-            // play a sound effect located in /resources/assets/sounds/
             play("cyka.wav");
-            //increases score on hit
-            inc("score", +150);
-                });}
+            inc("score", +150); });}
     @Override
     protected void initUI() {
         //Adds score text and counter
@@ -114,6 +100,7 @@ public  class WhackApp extends GameApplication {
         addText("Score:", 30, 20).setFill(Color.RED);
     }
     private void showGameOver() {
+        //A way to end the game
         getDisplay().showMessageBox("You beat the game. Thanks for playing!", getGameController()::gotoMainMenu);
     }
 
