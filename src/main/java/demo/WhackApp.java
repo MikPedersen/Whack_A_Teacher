@@ -1,5 +1,6 @@
 package demo;
 
+import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.FXGLMenu;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -8,15 +9,15 @@ import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.RandomMoveComponent;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.Map;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public  class WhackApp extends GameApplication {
-     // Types of entities in this game.
-    public enum Type {MOLE, HAMMER}
 
     @Override
     protected void initSettings(GameSettings gameSettings) {
@@ -52,29 +53,60 @@ public  class WhackApp extends GameApplication {
     protected void initGame() {
         getSettings().setGlobalMusicVolume(0.1);
         getSettings().setGlobalSoundVolume(0.3);
-        spawnBackground();
-        spawnHammer();
-        // creates a timer that runs spawnMole() parameter is set to decide picture
-        run(() -> spawnMole("anders.jpg"), Duration.seconds(2));
-        run(() -> spawnMole("andras.jpg"), Duration.seconds(3));
-        //since Karsten is very hard to find his spawn is longer
-        run(() -> spawnMole("karsten.jpg"), Duration.seconds(6));
+
+        getGameWorld().addEntityFactory(new GameEntityFactory());
+        spawn("Background");
+        spawn("Hammer");
+        // creates a timer that runs spawn() parameter is set to decide picture
+        run(() -> {
+            Entity e = getGameWorld().create("Anders", new SpawnData(
+                    FXGLMath.random(200, getAppWidth() - 100), FXGLMath.random(150, getAppHeight() - 200)));
+            spawnWithScale(e, Duration.seconds(0.75), Interpolators.BOUNCE.EASE_OUT());
+        }, Duration.seconds(3));
+        run(() -> {
+            Entity e = getGameWorld().create("Andras", new SpawnData(
+                    FXGLMath.random(200, getAppWidth() - 100), FXGLMath.random(150, getAppHeight() - 200)));
+            spawnWithScale(e, Duration.seconds(0.75), Interpolators.BOUNCE.EASE_OUT());
+        }, Duration.seconds(2));
+        run(() -> {
+            Entity e = getGameWorld().create("Karsten", new SpawnData(
+                    FXGLMath.random(200, getAppWidth() - 100), FXGLMath.random(150, getAppHeight() - 200)));
+            spawnWithScale(e, Duration.seconds(0.75), Interpolators.BOUNCE.EASE_OUT());
+        }, Duration.seconds(6));
         // loop background music located in /resources/assets/music/
         loopBGM("BHT.mp3");
     }
 
     @Override
     protected void initPhysics() {
-        onCollisionBegin(Type.HAMMER, Type.MOLE, (hammer, mole) -> {
+        onCollisionBegin(EntityType.HAMMER, EntityType.ANDERS, (hammer, anders) -> {
             // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
             // remove the collided mole from the game
-
-            mole.removeFromWorld();
+            anders.removeFromWorld();
+            // play a sound effect located in /resources/assets/sounds/
+            play("reee.wav");
+            //increases score on hit
+            inc("score", +100);
+        }
+        );
+        onCollisionBegin(EntityType.HAMMER, EntityType.ANDRAS, (hammer, andras) -> {
+            // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
+            // remove the collided mole from the game
+            andras.removeFromWorld();
             // play a sound effect located in /resources/assets/sounds/
             play("slap.wav");
             //increases score on hit
-            inc("score", +100);
-        });}
+            inc("score", +50);
+        });
+        onCollisionBegin(EntityType.HAMMER, EntityType.KARSTEN, (hammer, karsten) -> {
+            // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
+            // remove the collided mole from the game
+            karsten.removeFromWorld();
+            // play a sound effect located in /resources/assets/sounds/
+            play("cyka.wav");
+            //increases score on hit
+            inc("score", +150);
+                });}
     @Override
     protected void initUI() {
         //Adds score text and counter
@@ -84,39 +116,7 @@ public  class WhackApp extends GameApplication {
     private void showGameOver() {
         getDisplay().showMessageBox("You beat the game. Thanks for playing!", getGameController()::gotoMainMenu);
     }
-    private void spawnHammer() {
-        // build an entity with Type.HAMMER
-        // at the position X = getAppWidth() / 2 and Y = getAppHeight() - 200
-        // with a view "hammer3.png", which is an image located in /resources/assets/textures/
-        // also create a bounding box from that view, make the entity collidable
-        // finally, complete building and attach to the game world
-        Entity hammer = entityBuilder()
-                .type(Type.HAMMER)
-                .at(getAppWidth() / 2, getAppHeight() - 200)
-                .viewWithBBox("hammer3.jpg")
-                .collidable()
-                .buildAndAttach();
-        // bind hammer's X value to mouse X
-        hammer.xProperty().bind(getInput().mouseXWorldProperty());
-        // bind hammer's Y value to mouse Y
-        hammer.yProperty().bind(getInput().mouseYWorldProperty());
-    }
-    private void spawnMole(String picture) {
-        Entity mole = entityBuilder()
-                //Builds a mole of the type picture which is entered when calling the method
-                .type(Type.MOLE)
-                .at(FXGLMath.random(200, getAppWidth() - 100), FXGLMath.random(150, getAppHeight() - 200))
-                .viewWithBBox(picture)
-                .with(new RandomMoveComponent(new Rectangle2D(0,0, getAppWidth(), getAppHeight()), 150))
-                .with(new OffscreenCleanComponent())
-                .collidable()
-                .buildAndAttach(); }
-    private void spawnBackground() {
-        entityBuilder()
-                //Creates the background
-                .viewWithBBox("background.png")
-                .buildAndAttach();
-    }
+
     public static void main(String[] args) {
         launch(args);
     }
