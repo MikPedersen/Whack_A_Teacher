@@ -48,7 +48,7 @@ public  class WhackApp extends GameApplication {
     @Override
     protected void initGame() {
         getSettings().setGlobalMusicVolume(0.1);
-        getSettings().setGlobalSoundVolume(0.3);
+        getSettings().setGlobalSoundVolume(0.4);
 
         getGameWorld().addEntityFactory(new GameEntityFactory());
         spawn("Background");
@@ -75,7 +75,7 @@ public  class WhackApp extends GameApplication {
 
     @Override
     protected void initPhysics() {
-        // code in this block is called when there is a collision between Type.HAMMER and Type.MOLE
+        // code in this block is called when there is a collision between Type.HAMMER and teachers
         // remove the collided mole from the game
         // play a sound effect located in /resources/assets/sounds/
         //increases score on hit

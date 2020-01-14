@@ -12,6 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontSmoothingType;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class WhackMainMenu extends FXGLMenu {
@@ -22,7 +25,7 @@ public class WhackMainMenu extends FXGLMenu {
         WhackButton button = new WhackButton("Start new game", () -> this.fireNewGame());
 
         button.setTranslateX(FXGL.getAppWidth()/2 - 200/2);
-        button.setTranslateY(FXGL.getAppHeight()/2 -40/2);
+        button.setTranslateY(FXGL.getAppHeight()/2);
 
         getMenuContentRoot().getChildren().add(button);
     }
@@ -49,7 +52,14 @@ public class WhackMainMenu extends FXGLMenu {
 
     @Override
     protected Node createTitleView( String s) {
-        return new Text();}
+        Text title = new Text();
+        title.setText("Whack A Teacher");
+        title.setTranslateY(FXGL.getAppHeight()/2 -60);
+        title.setTranslateX(FXGL.getAppWidth()/2 -450);
+        title.setFill(Color.ORANGERED);
+        title.setFont(Font.font("Verdana", FontWeight.BOLD,90));
+
+       return title;}
 
     @Override
     protected Node createVersionView( String s) {
