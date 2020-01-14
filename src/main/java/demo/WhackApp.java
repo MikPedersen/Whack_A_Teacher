@@ -1,13 +1,12 @@
 package demo;
 
 import com.almasb.fxgl.animation.Interpolators;
-import com.almasb.fxgl.app.FXGLMenu;
-import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.SceneFactory;
+import com.almasb.fxgl.app.*;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.ui.FXGLUIFactory;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.Map;
@@ -38,7 +37,9 @@ public  class WhackApp extends GameApplication {
             showGameOver();
             //Stops music player since game has ended
             getAudioPlayer().stopMusic(loopBGM("BHT.mp3"));
-        }}
+        }
+
+    }
 
     @Override
     protected void initGameVars(Map<String, Object> vars) {
@@ -71,6 +72,7 @@ public  class WhackApp extends GameApplication {
         }, Duration.seconds(6));
         // loop background music located in /resources/assets/music/
         loopBGM("BHT.mp3");
+
     }
 
     @Override
