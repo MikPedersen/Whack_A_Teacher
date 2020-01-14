@@ -21,7 +21,7 @@ public class WhackMainMenu extends FXGLMenu {
 
     public WhackMainMenu() {
         super(MenuType.MAIN_MENU);
-
+        
         WhackButton button = new WhackButton("Start new game", () -> this.fireNewGame());
 
         button.setTranslateX(FXGL.getAppWidth()/2 - 200/2);
@@ -67,6 +67,7 @@ public class WhackMainMenu extends FXGLMenu {
     protected Node createVersionView( String s) {
         return new Text();
     }
+
    private static class WhackButton extends StackPane {
         //Creates the button to start game
         public WhackButton (String name, Runnable action) {

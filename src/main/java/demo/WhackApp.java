@@ -5,6 +5,7 @@ import com.almasb.fxgl.app.*;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.ui.FXGLUIFactory;
 import javafx.scene.paint.Color;
@@ -27,18 +28,19 @@ public  class WhackApp extends GameApplication {
         gameSettings.setSceneFactory(new SceneFactory() {
             @Override
             public FXGLMenu newMainMenu(){
+
                 return new WhackMainMenu();
-            }});}
+            }});
+    }
 
     @Override
     protected void onUpdate(double tpf){
-        if (geti("score") == 3000) {
+        if (geti("score") >= 3000) {
             //Ends the current game when player reaches 3000 points
             showGameOver();
             //Stops music player since game has ended
-            getAudioPlayer().stopMusic(loopBGM("BHT.mp3"));
+            stopMusic();
         }
-
     }
 
     @Override
@@ -54,6 +56,7 @@ public  class WhackApp extends GameApplication {
         getGameWorld().addEntityFactory(new GameEntityFactory());
         spawn("Background");
         spawn("Hammer");
+
         // creates a timer that runs spawn() parameter is set to decide picture
         run(() -> {
             Entity e = getGameWorld().create("Anders", new SpawnData(
@@ -72,7 +75,6 @@ public  class WhackApp extends GameApplication {
         }, Duration.seconds(6));
         // loop background music located in /resources/assets/music/
         loopBGM("BHT.mp3");
-
     }
 
     @Override
@@ -104,6 +106,9 @@ public  class WhackApp extends GameApplication {
     private void showGameOver() {
         //A way to end the game
         getDisplay().showMessageBox("You beat the game. Thanks for playing!", getGameController()::gotoMainMenu);
+    }
+    private void stopMusic(){
+        getAudioPlayer().stopMusic(loopBGM("BHT.mp3"));
     }
 
     public static void main(String[] args) {
