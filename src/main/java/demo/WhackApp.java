@@ -3,14 +3,14 @@ package demo;
 import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.*;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.ui.FXGLUIFactory;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import com.almasb.fxgl.scene.*;
 import java.util.Map;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public  class WhackApp extends GameApplication {
@@ -23,15 +23,16 @@ public  class WhackApp extends GameApplication {
         gameSettings.setWidth(1024);
         gameSettings.setTitle("Whack a teacher");
         gameSettings.setVersion("1.0");
-
         gameSettings.setMenuEnabled(true);
         gameSettings.setSceneFactory(new SceneFactory() {
             @Override
             public FXGLMenu newMainMenu(){
-
                 return new WhackMainMenu();
-            }});
-    }
+            }
+            @Override
+            public FXGLMenu newGameMenu(){
+                return new WhackGameMenu();
+            }});}
 
     @Override
     protected void onUpdate(double tpf){
@@ -107,7 +108,7 @@ public  class WhackApp extends GameApplication {
         //A way to end the game
         getDisplay().showMessageBox("You beat the game. Thanks for playing!", getGameController()::gotoMainMenu);
     }
-    private void stopMusic(){
+    public void stopMusic(){
         getAudioPlayer().stopMusic(loopBGM("BHT.mp3"));
     }
 

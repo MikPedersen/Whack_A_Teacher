@@ -15,18 +15,23 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.jetbrains.annotations.NotNull;
 
-public class WhackMainMenu extends FXGLMenu {
+public class WhackGameMenu extends FXGLMenu {
 
-    public WhackMainMenu() {
-        super(MenuType.MAIN_MENU);
+    public WhackGameMenu() {
+        super(MenuType.GAME_MENU);
 
-        WhackButton button = new WhackButton("Start new game", () -> this.fireNewGame());
+        WhackGameMenu.WhackButton exitToMenu = new WhackGameMenu.WhackButton("Return to main menu", () -> this.fireExitToMainMenu());
+        WhackGameMenu.WhackButton resumeGame = new WhackGameMenu.WhackButton("Resume game", ()-> this.fireResume());
 
-        button.setTranslateX(FXGL.getAppWidth()/2 - 200/2);
-        button.setTranslateY(FXGL.getAppHeight()/2 +20);
+        exitToMenu.setTranslateX(FXGL.getAppWidth()/2 - 200/2);
+        exitToMenu.setTranslateY(FXGL.getAppHeight()/2 - 40);
+        resumeGame.setTranslateX(FXGL.getAppWidth()/2 - 200/2);
+        resumeGame.setTranslateY(FXGL.getAppHeight()/2 +20);
 
-        getMenuContentRoot().getChildren().add(button);
+        getMenuContentRoot().getChildren().add(exitToMenu);
+        getMenuContentRoot().getChildren().add(resumeGame);
     }
 
 
@@ -43,7 +48,7 @@ public class WhackMainMenu extends FXGLMenu {
     @Override
     protected Node createBackground(double width, double height) {
         return new ImageView(FXGL.image("background.png"));
-        }
+    }
 
     @Override
     protected Node createProfileView( String s) {
@@ -54,20 +59,20 @@ public class WhackMainMenu extends FXGLMenu {
     protected Node createTitleView( String s) {
         //Creates the title
         Text title = new Text();
-        title.setText("Whack A Teacher");
-        title.setTranslateY(FXGL.getAppHeight()/2 -60);
+        title.setText("Game is paused");
+        title.setTranslateY(FXGL.getAppHeight()/2 -70);
         title.setTranslateX(FXGL.getAppWidth()/2 -420);
         title.setFill(Color.ORANGERED);
         title.setFont(Font.font("Verdana", FontWeight.BOLD,90));
         title.setEffect(new DropShadow(30, Color.BLACK));
-       return title;}
+        return title;}
 
     @Override
     protected Node createVersionView( String s) {
         return new Text();
     }
 
-   private static class WhackButton extends StackPane {
+    private static class WhackButton extends StackPane {
         //Creates the button to start game
         public WhackButton (String name, Runnable action) {
             Rectangle bg = new Rectangle(200, 40);
@@ -83,6 +88,7 @@ public class WhackMainMenu extends FXGLMenu {
             );
             setOnMouseClicked(e -> action.run());
             getChildren().addAll(bg, text);
+
         }
     }
 }
