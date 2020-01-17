@@ -21,7 +21,11 @@ public class WhackGameMenu extends FXGLMenu {
     public WhackGameMenu() {
         super(MenuType.GAME_MENU);
 
-        WhackGameMenu.WhackButton exitToMenu = new WhackGameMenu.WhackButton("Return to main menu", () -> this.fireExitToMainMenu());
+        WhackGameMenu.WhackButton exitToMenu = new WhackGameMenu.WhackButton("Return to main menu",
+                () -> {this.fireExitToMainMenu();
+                WhackApp w = new WhackApp();
+                w.stopMusic();
+        });
         WhackGameMenu.WhackButton resumeGame = new WhackGameMenu.WhackButton("Resume game", ()-> this.fireResume());
 
         exitToMenu.setTranslateX(FXGL.getAppWidth()/2 - 200/2);
