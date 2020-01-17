@@ -109,6 +109,7 @@ public  class WhackApp extends GameApplication {
         getDisplay().showMessageBox("You beat the game. Thanks for playing!", getGameController()::gotoMainMenu);
     }
     public void stopMusic(){
+        //call this method to stop music
         getAudioPlayer().stopMusic(loopBGM("BHT.mp3"));
     }
 
